@@ -1,0 +1,126 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set DB_USER=root
+set DB_NAME=ardientes_pos
+set BACKUP_DIR=C:\ArdientesBackups
+set LOG_FILE=%BACKUP_DIR%\backup_log.txt
+set MYSQL_PATH=C:\xampp\mysql\bin\mysql.exe
+set MYSQLDUMP_PATH=C:\xampp\mysql\bin\mysqldump.exe
+
+echo =========================================================
+echo       ASISTENTE DE RESTAURACION DE ARDIENTES POS
+echo =========================================================
+echo.
+echo Seleccione el archivo de backup que desea restaurar:
+echo.
+
+set count=0
+for /f "delims=" %%F in ('dir /b /o-d "%BACKUP_DIR%\*.sql"') do (
+    set /a count+=1
+    set "backup[!count!]=%%F"
+    
+    :: Obtener fecha y tamaño
+    for %%A in ("%BACKUP_DIR%\%%F") do (
+        set ftime=%%~tA
+        set fsize=%%~zA
+    )
+    
+    echo [!count!] %%F ^(Modificado: !ftime!, Tamano: !fsize! bytes^)
+)
+
+if %count% equ 0 (
+    echo No hay backups disponibles en %BACKUP_DIR%.
+    pause
+    exit /b 1
+)
+
+echo.
+set /p selection="Ingrese el numero del backup a restaurar (o presione ENTER para cancelar): "
+
+if "%selection%"=="" exit /b 0
+if %selection% gtr %count% (
+    echo Seleccion invalida.
+    pause
+    exit /b 1
+)
+if %selection% lss 1 (
+    echo Seleccion invalida.
+    pause
+    exit /b 1
+)
+
+set SELECTED_FILE=!backup[%selection%]!
+set SELECTED_PATH=%BACKUP_DIR%\%SELECTED_FILE%
+
+echo.
+echo Has seleccionado: %SELECTED_FILE%
+echo.
+echo =================================================================
+echo [PELIGRO] ESTA OPERACION SOBRESCRIBIRA LA BASE DE DATOS ACTUAL.
+echo TODOS LOS DATOS NO RESPALDADOS DESPUES DE ESE BACKUP SE PERDERAN.
+echo =================================================================
+echo.
+set /p confirm="Escriba exactamente RESTAURAR para proceder: "
+
+if not "%confirm%"=="RESTAURAR" (
+    echo.
+    echo Operacion cancelada.
+    pause
+    exit /b 0
+)
+
+echo.
+echo [%date% %time%] [INFO] Iniciando proceso de restauracion manual desde %SELECTED_FILE%. >> "%LOG_FILE%"
+
+:: BACKUP PREVIO DE SEGURIDAD
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+set mydate=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%
+set mytime=%datetime:~8,2%%datetime:~10,2%%datetime:~12,2%
+set PRE_RESTORE_FILE=prerestore_%DB_NAME%_%mydate%_%mytime%.sql
+set PRE_RESTORE_PATH=%BACKUP_DIR%\%PRE_RESTORE_FILE%
+
+echo Creando backup de seguridad previo a la restauracion...
+echo [%date% %time%] [INFO] Creando backup de seguridad: %PRE_RESTORE_FILE% >> "%LOG_FILE%"
+
+"%MYSQLDUMP_PATH%" -u %DB_USER% %DB_NAME% > "%PRE_RESTORE_PATH%" 2>> "%LOG_FILE%"
+if %ERRORLEVEL% neq 0 (
+    echo [ERROR] Fallo al crear backup de seguridad. Operacion abortada.
+    echo [%date% %time%] [ERROR] Fallo al crear backup de seguridad. Restauracion abortada. >> "%LOG_FILE%"
+    pause
+    exit /b 1
+)
+
+for %%A in ("%PRE_RESTORE_PATH%") do set PRE_SIZE=%%~zA
+if %PRE_SIZE% equ 0 (
+    echo [ERROR] Backup de seguridad generado vacio. Operacion abortada.
+    echo [%date% %time%] [ERROR] Backup de seguridad generado vacio. Restauracion abortada. >> "%LOG_FILE%"
+    del "%PRE_RESTORE_PATH%"
+    pause
+    exit /b 1
+)
+
+echo Backup de seguridad creado exitosamente.
+
+:: IMPORTACIÓN
+echo.
+echo Restaurando %SELECTED_FILE%...
+"%MYSQL_PATH%" -u %DB_USER% %DB_NAME% < "%SELECTED_PATH%" 2>> "%LOG_FILE%"
+
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo [ERROR FATAL] La restauracion fallo.
+    echo Por favor, revisa el archivo de registro.
+    echo TU BASE DE DATOS PUEDE ESTAR INCOMPLETA O CORRUPTA.
+    echo Se conservo el backup de seguridad: %PRE_RESTORE_FILE%
+    echo [%date% %time%] [ERROR] La restauracion de %SELECTED_FILE% FALLO. >> "%LOG_FILE%"
+    pause
+    exit /b 1
+)
+
+echo.
+echo [EXITO] Restauracion completada correctamente.
+echo [%date% %time%] [EXITO] Restauracion de %SELECTED_FILE% completada. >> "%LOG_FILE%"
+
+pause
+exit /b 0

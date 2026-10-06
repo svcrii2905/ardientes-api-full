@@ -1,0 +1,106 @@
+/* =========================================================
+   ARDIENTES POS — Design Tokens (variables.css)
+   Paleta basada en la identidad visual: madera oscura + fuego
+   ========================================================= */
+:root {
+  /* ── Colores de fondo ─────────────────────────────── */
+  --bg-primary:    #100A06;   /* Madera quemada profunda */
+  --bg-canvas:     #0C0704;   /* Fondo canvas / más oscuro que primary */
+  --bg-surface:    #1C1008;   /* Fondo de paneles */
+  --bg-card:       #261510;   /* Tarjetas de producto */
+  --bg-card-hover: #321A12;   /* Tarjetas — hover */
+  --bg-input:      #1A0E08;   /* Inputs / campos */
+  --bg-sidebar:    #0D0805;   /* Sidebar oscuro */
+  --bg-header:     #160D07;   /* Header */
+  --bg-modal:      rgba(10, 6, 3, 0.92); /* Overlay de modales */
+
+  /* ── Bordes ───────────────────────────────────────── */
+  --border-subtle:  rgba(255, 100, 20, 0.12);
+  --border-medium:  rgba(255, 100, 20, 0.25);
+  --border-strong:  rgba(255, 100, 20, 0.45);
+
+  /* ── Naranja fuego — color primario ──────────────── */
+  --fire-500:  #FF5500;  /* Botón principal / CTA */
+  --fire-600:  #E84D00;  /* Hover de botón */
+  --fire-400:  #FF7733;  /* Variante suave */
+  --fire-300:  #FF9966;  /* Acento claro */
+
+  /* ── Ámbar / Dorado — precios y badges ──────────── */
+  --amber-500: #FFA500;
+  --amber-400: #FFB830;
+  --gold-500:  #FFC107;
+  --gold-400:  #FFD54F;
+
+  /* ── Texto ────────────────────────────────────────── */
+  --text-primary:   #FFF5EE;  /* Texto principal */
+  --text-secondary: #C8A98A;  /* Etiquetas / meta-info */
+  --text-muted:     #7A5A45;  /* Texto deshabilitado */
+  --text-fire:      #FF7733;  /* Énfasis naranja */
+  --text-gold:      #FFB830;  /* Precios */
+
+  /* ── Estados ──────────────────────────────────────── */
+  --status-online:  #10B981;  /* ● API conectada */
+  --status-offline: #EF4444;  /* ● API caída */
+  --status-warning: #F59E0B;  /* ⚠ Alerta */
+
+  /* ── Estados de pedido ───────────────────────────── */
+  --order-pending:    #6B7280;
+  --order-confirmed:  #3B82F6;
+  --order-preparing:  #F59E0B;
+  --order-ready:      #10B981;
+  --order-delivered:  #059669;
+  --order-cancelled:  #EF4444;
+
+  /* ── Sombras ──────────────────────────────────────── */
+  --shadow-sm:   0 2px 8px rgba(255, 85, 0, 0.08);
+  --shadow-md:   0 4px 20px rgba(255, 85, 0, 0.15);
+  --shadow-lg:   0 8px 40px rgba(255, 85, 0, 0.22);
+  --shadow-glow: 0 0 20px rgba(255, 85, 0, 0.35);
+
+  /* ── Tipografía ───────────────────────────────────── */
+  --font-main:    'Outfit', 'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+  --font-extrabold:800;
+  --font-black:    900;
+
+  /* ── Espaciado ────────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* ── Radio de borde ──────────────────────────────── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-full:9999px;
+
+  /* ── Transiciones ────────────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* ── Dimensiones de layout ───────────────────────── */
+  --sidebar-width: 220px;
+  --cart-width:    340px;
+  --header-height: 60px;
+}

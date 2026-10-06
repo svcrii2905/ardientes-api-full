@@ -1,0 +1,9 @@
+=== INICIO: 09/16/2026 16:16:45 ===
+
+Deteniendo servicio ArdientesPOS...
+sc stop resultado: [SC] OpenService ERROR 5:  Acceso denegado. 
+Estado post-stop: Running
+Matando PID: 16204
+Reemplazando ardientes-pos.exe con ardientes-pos-NEW.exe...
+ERROR: El proceso no puede obtener acceso al archivo 'C:\Users\Equipo\Music\ardientes appi\ardientes-pos.exe' porque está siendo utilizado en otro proceso.
+=== FIN CON ERROR: 09/16/2026 16:16:54 ===

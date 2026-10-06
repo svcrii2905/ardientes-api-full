@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ardientes POS — Sistema de Punto de Venta para Ardientes Comidas Rápidas" />
+  <meta name="theme-color" content="#FF5500" />
+
+  <title>Ardientes POS — Comidas Rápidas</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+
+  <!-- CSS: Design System Ardientes -->
+  <link rel="stylesheet" href="/css/variables.css?v=8" />
+  <link rel="stylesheet" href="/css/base.css?v=8" />
+  <link rel="stylesheet" href="/css/components.css?v=8" />
+  <link rel="stylesheet" href="/css/layout.css?v=8" />
+</head>
+<body>
+
+  <!-- Pantalla de carga inicial -->
+  <div id="splash" style="
+    position:fixed; inset:0; z-index:9999;
+    background: #100A06;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:1.5rem;
+    transition: opacity 500ms ease;
+  ">
+    <div style="
+      width:100px; height:100px; border-radius:50%;
+      background: linear-gradient(135deg,#FF5500,#FF9900);
+      display:flex; align-items:center; justify-content:center;
+      font-size:3.5rem;
+      box-shadow: 0 0 60px rgba(255,85,0,0.5);
+      animation: splashPulse 1.5s ease-in-out infinite;
+    ">🔥</div>
+    <div style="text-align:center">
+      <h1 style="
+        font-family:'Outfit',sans-serif; font-weight:800; font-size:2rem;
+        color:#FFF5EE; letter-spacing:2px; margin:0;
+      ">ARDIENTES</h1>
+      <p style="
+        font-family:'Outfit',sans-serif; font-size:0.75rem; letter-spacing:3px;
+        color:#C8A98A; margin:4px 0 0; text-transform:uppercase;
+      ">COMIDAS RÁPIDAS · POS</p>
+    </div>
+    <div class="spinner" style="width:24px;height:24px;opacity:0.6"></div>
+  </div>
+
+  <style>
+    @keyframes splashPulse {
+      0%,100% { transform:scale(1); box-shadow:0 0 60px rgba(255,85,0,0.5); }
+      50%      { transform:scale(1.05); box-shadow:0 0 80px rgba(255,85,0,0.7); }
+    }
+  </style>
+
+  <!-- App root -->
+  <div id="app"></div>
+
+  <!-- App entry point (ES Module) -->
+  <script type="module" src="/js/app.js?v=8"></script>
+
+  <script>
+    // Ocultar splash cuando la app esté lista
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash');
+        if (splash) {
+          splash.style.opacity = '0';
+          setTimeout(() => splash.remove(), 500);
+        }
+      }, 800);
+    });
+  </script>
+</body>
+</html>
